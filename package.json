@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "api": "cd api && venv/bin/flask run --no-debugger",
+    "api": "cd api && venv/bin/flask.py run --no-debugger",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
