@@ -4,6 +4,7 @@ from flask.wrappers import Request
 from flask_cors import CORS
 from flask import request
 from functions.sarrus import getDeterminant
+import functions.solution2
 
 app = Flask(__name__)
 CORS(app)
@@ -19,3 +20,9 @@ def test():
 
     return {'result': getDeterminant(matrix)}
 
+@app.route("/solution2", methods=["POST"])
+def test():
+    result = request.json
+    matrix = result["matrix"]
+
+    return {'colA': colA(matrix),'nulA': nulA(matrix),'rangoA': rangeA(matrix), 'filaA': rowA(matrix), 'dimensionnula': nuldimention(matrix)}
