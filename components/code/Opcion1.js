@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Grid, Typography, Box, makeStyles, Paper, Zoom } from '@material-ui/core/'
 import Input from '../visual/Input'
 import { useForm } from 'react-hook-form'
@@ -114,7 +114,7 @@ const Opcion1 = (props) => {
         body: JSON.stringify({ matrix: matrix }),
         headers: { 'Content-Type': 'application/json' }
       }
-      await fetch(`${url}/determinant`, requestOptions)
+      await fetch(`${url}/solution1`, requestOptions)
         .then(response => response.json())
         .then(data => {
           setDetResult(data.result)

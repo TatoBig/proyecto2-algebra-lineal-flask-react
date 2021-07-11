@@ -16,39 +16,62 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4)
   },
   result: {
-    marginTop: theme.spacing(3),
-    width: 420
+    marginTop: theme.spacing(3)
+    // width: 420
   },
   row: {
     marginRight: theme.spacing(6)
-  }
+  },
 }))
 
+const url = 'http://localhost:5000'
 const matriz3x3 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Opcion2 = (props) => {
   const { returnMenu, checked } = props
-  const [setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [results, setResults] = useState({})
   const { handleSubmit, control, formState: { errors }, setValue } = useForm({
     mode: 'onChange',
   })
   const classes = useStyles()
 
-  const onSubmit = (data) => {
-    let matriz = []
+  const onSubmit = async (data) => {
+    let matrix = []
     let contador = 0
     let fila = []
     for (const cell in data) {
-      fila.push(data[cell])
+      fila.push(parseInt(data[cell]))
       contador++
-      if (contador === 5) {
+      if (contador === 3) {
         contador = 0
-        matriz.push(fila)
+        matrix.push(fila)
         fila = []
       }
     }
+
+    try {
+      const requestOptions = {
+        method: 'POST',
+        body: JSON.stringify({ matrix: matrix }),
+        headers: { 'Content-Type': 'application/json' }
+      }
+      await fetch(`${url}/solution2`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          setResults(data)
+        })
+    } catch (e) {
+      console.log(e)
+    }
+
     setOpen(true)
   }
+
+  useEffect(() => {
+    console.log(results)
+  }, [results])
 
   const getError = (index) => {
     switch (index) {
@@ -70,21 +93,15 @@ const Opcion2 = (props) => {
         return errors.c7
       case 8:
         return errors.c8
-      case 9:
-        return errors.c9
-      case 10:
-        return errors.c10
-      case 11:
-        return errors.c11
     }
   }
 
-  // const example = () => {
-  //   const example = [1, -2, 2, -3, 15, 3, 4, -1, 1, -6, 2, -3, 2, -1, 17, 1, 1, -3, -2, -7]
-  //   example.map((cell, index) => {
-  //     setValue(`c${index}`, cell)
-  //   })
-  // }
+  const example = () => {
+    const example = [3, -5, -3, 6, -2, 0, -8, 4, 1]
+    example.map((cell, index) => {
+      setValue(`c${index}`, cell)
+    })
+  }
 
   return (
     <React.Fragment>
@@ -117,18 +134,72 @@ const Opcion2 = (props) => {
               text="Ingresar"
               onClick={handleSubmit(onSubmit)}
             />
+            <SubmitButton
+              text="Ejemplo"
+              onClick={() => example()}
+            />
           </Box>
         </Paper>
       </Zoom>
-      {/* <ResultDialog
+      <ResultDialog
         open={open}
         setOpen={setOpen}
         onClose={() => setOpen(false)}
       >
-        <MatrixKeys columns={5} title="Matriz final">
+        {
+          results &&
+          <React.Fragment>
+            <Typography variant="h6" color="initial">
+              Rango A: {results.rangoA}
+            </Typography>
+            <Typography variant="h6" color="initial">
+              Dimensión del espacio nulo: {results.dimensionnula}
+            </Typography>
+            <MatrixKeys columns={2} title="Col (A)">
+              <Box className={classes.result} display="flex" flexWrap="wrap">
+                {
+                  results.colA && results.colA.map((row, index) => (
+                    row.map(cell => (
+                      <Typography key={cell.id} variant="h3" color="initial" className={classes.row} align="center">
+                        {Math.round(cell * 1) / 1}
+                      </Typography>
+                    ))
+                  ))
+                }
+              </Box>
+            </MatrixKeys>
+            <MatrixKeys columns={2} title="Fila (A)">
+              <Box className={classes.result} display="flex" flexWrap="wrap">
+                {
+                  results.filaA && results.filaA.map((row, index) => (
+                    row.map(cell => (
+                      <Typography key={cell.id} variant="h3" color="initial" className={classes.row} align="center">
+                        {Math.round(cell * 1) / 1}
+                      </Typography>
+                    ))
+                  ))
+                }
+              </Box>
+            </MatrixKeys>
+            {
+              results.nulA && results.nulA.map((matrix, index) => (
+                <MatrixKeys key={matrix.id} columns={1} title={`Nul (A): ${index + 1}`}>
+                  <Box className={classes.result} display="flex" flexWrap="wrap">
+                    {
+                      matrix.map(row => (
+                        <Typography key={row.id} variant="h3" color="initial" className={classes.row} align="center">
+                          {Math.round(row * 1) / 1}
+                        </Typography>
+                      ))
+                    }
+                  </Box>
+                </MatrixKeys>
+              ))
+            }
+          </React.Fragment>
+        }
 
-        </MatrixKeys>
-      </ResultDialog> */}
+      </ResultDialog>
     </React.Fragment>
   )
 }

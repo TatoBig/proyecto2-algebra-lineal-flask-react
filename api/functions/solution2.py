@@ -176,14 +176,8 @@ def nulA(matrix):
                     pass
                 else:
                     if (((matrix[0][0] * i) + (matrix[0][1] * j) + (matrix[0][2] * k)) == 0) and (((matrix[1][0] * i) + (matrix[1][1] * j) + (matrix[1][2] * k)) == 0) and (((matrix[2][0] * i) + (matrix[2][1] * j) + (matrix[2][2] * k)) == 0):
-                        print('solucion numero '+str(counter))
-                        print(i)
-                        print(j)
-                        print(k)
                         nula.append([i,j,k])
                         counter = counter + 1
     return nula                        
         
 #++++++++++++++++++++++++PROOOOOOOOOFFFF
-
-print(nulA(matrix_for_example))
