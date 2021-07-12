@@ -6,6 +6,8 @@ import { Box, Grid, Paper, Zoom, Typography, makeStyles } from '@material-ui/cor
 import Header from '../visual/Header'
 import { SubmitButton } from '../visual/Buttons'
 import ResultDialog from '../visual/ResultDialog'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 const useStyles = makeStyles(theme => ({
   submit: {
@@ -27,12 +29,24 @@ const useStyles = makeStyles(theme => ({
 const url = 'http://localhost:5000'
 const matriz3x3 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+const schema = yup.object().shape({
+  c0: yup.string().required('Falta dato'),
+  c1: yup.string().required('Falta dato'),
+  c2: yup.string().required('Falta dato'),
+  c3: yup.string().required('Falta dato'),
+  c4: yup.string().required('Falta dato'),
+  c5: yup.string().required('Falta dato'),
+  c6: yup.string().required('Falta dato'),
+  c7: yup.string().required('Falta dato')
+})
+
 const Opcion2 = (props) => {
   const { returnMenu, checked } = props
   const [open, setOpen] = useState(false)
   const [results, setResults] = useState({})
-  const { handleSubmit, control, formState: { errors }, setValue } = useForm({
+  const { handleSubmit, control, formState: { errors }, setValue, getValues } = useForm({
     mode: 'onChange',
+    resolver: yupResolver(schema)
   })
   const classes = useStyles()
 
@@ -40,8 +54,8 @@ const Opcion2 = (props) => {
     let matrix = []
     let contador = 0
     let fila = []
-    for (const cell in data) {
-      fila.push(parseInt(data[cell]))
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      fila.push(parseInt(getValues(`c${i}`)))
       contador++
       if (contador === 3) {
         contador = 0
@@ -49,6 +63,8 @@ const Opcion2 = (props) => {
         fila = []
       }
     }
+
+    console.log(matrix)
 
     try {
       const requestOptions = {
@@ -68,10 +84,6 @@ const Opcion2 = (props) => {
 
     setOpen(true)
   }
-
-  useEffect(() => {
-    console.log(results)
-  }, [results])
 
   const getError = (index) => {
     switch (index) {

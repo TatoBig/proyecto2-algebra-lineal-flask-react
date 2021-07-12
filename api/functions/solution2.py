@@ -1,11 +1,7 @@
 import numpy as np
 import copy
 import sys
-matrix_for_example = [
-    [3,-5,-3],
-    [6,-2,0 ],
-    [-8,4,1]
-]
+
 def ejemp():
     for i in range(0,5):
         print(i)
@@ -124,7 +120,7 @@ def replace_columns(matrix,new_column,column):
 #RANGO DE A
 def rangeA(matrix):
     counter = 0
-    new_matrix = round_terms(escalonate_matrix(matrix_for_example))
+    new_matrix = round_terms(escalonate_matrix(matrix))
     if new_matrix[0][0] != 0:
         counter = counter + 1
     if new_matrix[1][1] != 0:
@@ -138,7 +134,7 @@ def nuldimention(matrix):
     return counter
 #FIL(A)
 def rowA(matrix):
-    new_matrix = round_terms(escalonate_matrix(matrix_for_example))
+    new_matrix = round_terms(escalonate_matrix(matrix))
     return new_matrix
 
 def colA(matrix):
@@ -164,11 +160,9 @@ def colA(matrix):
 
 #+++++++++++++NUL(A)
 def nulA(matrix):
-    nula =[]
-    if nuldimention(matrix) == 0:
-        return 0
-    else:
-        counter = 0
+    nula = []
+    print(matrix)
+    counter = 0
     for i in range(-10, 10):
         for j in range(-10, 10):
             for k in range(-10, 10):

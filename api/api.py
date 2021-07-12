@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask import request
 from functions.solution1 import getDeterminant
 from functions.solution2 import *
+from functions.solution3 import *
 
 app = Flask(__name__)
 CORS(app)
@@ -24,4 +25,10 @@ def test():
 def test2():
     result = request.json
     matrix = result["matrix"]
-    return {'colA': colA(matrix),'nulA': nulA(matrix),'rangoA': rangeA(matrix), 'filaA': rowA(matrix), 'dimensionnula': nuldimention(matrix)}
+    return {'colA': colA(matrix), 'nulA': nulA(matrix),'rangoA': rangeA(matrix), 'filaA': rowA(matrix), 'dimensionnula': nuldimention(matrix)}
+
+@app.route("/solution3", methods=["POST"])
+def test3():
+    result = request.json
+    matrix = result["matrix"]
+    return {'valores': valores_propios(matrix), 'vectores': vectores_propios(matrix)}

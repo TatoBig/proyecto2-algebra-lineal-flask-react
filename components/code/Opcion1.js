@@ -51,7 +51,7 @@ const Opcion1 = (props) => {
   const { returnMenu, checked } = props
   const [open, setOpen] = useState(false)
   const [detResult, setDetResult] = useState(0)
-  const { handleSubmit, control, formState: { errors }, setValue } = useForm({
+  const { handleSubmit, control, formState: { errors }, setValue, getValues } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
   })
@@ -98,8 +98,8 @@ const Opcion1 = (props) => {
     let matrix = []
     let contador = 0
     let fila = []
-    for (const cell in data) {
-      fila.push(parseInt(data[cell]))
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      fila.push(parseInt(getValues(`c${i}`)))
       contador++
       if (contador === 4) {
         contador = 0

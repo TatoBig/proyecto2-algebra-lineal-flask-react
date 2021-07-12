@@ -117,6 +117,12 @@ export default function Home() {
               <Typography variant="h6" color="initial" align="center">
                 Paolo Giovanni Veliz Sulecio 1543219
               </Typography>
+              <Typography variant="h6" color="initial" align="center">
+                Jeffrey Manrique Reyes Vásquez 1603719
+              </Typography>
+              <Typography variant="h6" color="initial" align="center">
+                Alison Carolina Ramos Carrera 1510819
+              </Typography>
             </Card>
           </Paper>
         </Zoom>
